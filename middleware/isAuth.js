@@ -2,6 +2,7 @@ import redis from "../configs/redis.js"
 
 export const isAuth = async(req, res, next) => {
     try {
+        console.log("COOKIE HEADER:", req.headers.cookie, "| PARSED:", req.cookies)
         const sessionId = req.cookies?.session
 
         if(!sessionId){

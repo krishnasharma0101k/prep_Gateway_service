@@ -5,7 +5,7 @@ const wake = async (serviceUrl, maxWaitMs) => {
     const deadline = Date.now() + maxWaitMs
     while (Date.now() < deadline) {
         try {
-            const r = await fetch(serviceUrl, { signal: AbortSignal.timeout(10000) })
+            const r = await fetch(serviceUrl, { signal: AbortSignal.timeout(70000) })
             console.log("ping", serviceUrl, r.status)   // remove later
             if (r.status < 500 && r.status !== 429) {
                 lastOk.set(serviceUrl, Date.now())
@@ -19,7 +19,7 @@ const wake = async (serviceUrl, maxWaitMs) => {
     return false
 }
 
-export const ensureAwake = (serviceUrl, { maxWaitMs = 60000, freshMs = 5 * 60 * 1000 } = {}) => {
+export const ensureAwake = (serviceUrl, { maxWaitMs = 120000, freshMs = 5 * 60 * 1000 } = {}) => {
     return async (req, res, next) => {
         if (Date.now() - (lastOk.get(serviceUrl) || 0) < freshMs) return next()
 

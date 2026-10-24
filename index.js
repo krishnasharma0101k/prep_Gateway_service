@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser"
 import { getCurrentUser } from "./controllers/user.controller.js"
 import { isAuth } from "./middleware/isAuth.js"
 import { proxyWithHeader } from "./utils/proxyWithHeader.js"
-import { ensureAwake } from "./utils/ensureAwake.js" 
+
 
 const app = express()
 
@@ -31,13 +31,11 @@ app.get("/", (req, res) => {
     res.send("hello from gateway")
 })
 
-// app.use("/api/auth", proxy(process.env.AUTH_SEVRICE_URL))
-// app.use("/api/resume",isAuth, proxyWithHeader(process.env.RESUME_SEVRICE_URL))
-// app.use("/api/interview",isAuth, proxyWithHeader(process.env.INTERVIEW_SEVRICE_URL))
+app.use("/api/auth", proxy(process.env.AUTH_SEVRICE_URL))
+app.use("/api/resume",isAuth, proxyWithHeader(process.env.RESUME_SEVRICE_URL))
+app.use("/api/interview",isAuth, proxyWithHeader(process.env.INTERVIEW_SEVRICE_URL))
 
-app.use("/api/auth", ensureAwake(process.env.AUTH_SEVRICE_URL), proxy(process.env.AUTH_SEVRICE_URL))
-app.use("/api/resume", isAuth, ensureAwake(process.env.RESUME_SEVRICE_URL), proxyWithHeader(process.env.RESUME_SEVRICE_URL))
-app.use("/api/interview", isAuth, ensureAwake(process.env.INTERVIEW_SEVRICE_URL), proxyWithHeader(process.env.INTERVIEW_SEVRICE_URL))
+
 
 app.get("/api/me", isAuth, getCurrentUser)
 

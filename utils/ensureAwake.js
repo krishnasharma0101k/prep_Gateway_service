@@ -5,14 +5,12 @@ const wake = async (serviceUrl, maxWaitMs) => {
     const deadline = Date.now() + maxWaitMs
     while (Date.now() < deadline) {
         try {
-            const r = await fetch(serviceUrl, { signal: AbortSignal.timeout(70000) })
-            console.log("ping", serviceUrl, r.status)   // remove later
+            const r = await fetch(serviceUrl, { signal: AbortSignal.timeout(70000) })  // remove later
             if (r.status < 500 && r.status !== 429) {
                 lastOk.set(serviceUrl, Date.now())
                 return true
             }
         } catch (err) {
-            console.log("ping failed", serviceUrl, err.message)   // remove later
         }
         await new Promise(r => setTimeout(r, 5000))
     }

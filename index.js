@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", proxy(process.env.AUTH_SEVRICE_URL))
 app.use("/api/resume",isAuth, proxyWithHeader(process.env.RESUME_SEVRICE_URL))
 app.use("/api/interview",isAuth, proxyWithHeader(process.env.INTERVIEW_SEVRICE_URL))
+app.use("/api/roadmap",isAuth, proxyWithHeader(process.env.ROADMAP_SEVRICE_URL))
 
 
 
